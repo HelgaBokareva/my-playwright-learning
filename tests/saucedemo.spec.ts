@@ -17,6 +17,14 @@ test.describe('Login', () => {
     await page.goto('/');
   });
  
+  test('locked user sees error message', async ({ page }) => {
+  await login(page, 'locked_out_user', VALID_PASS);
+  await expect(
+    page.getByTestId('error'),
+    'Locked user should see lock-out error message'
+  ).toHaveText('Epic sadface: Sorry, this user has been locked out.');
+});
+
   test('Task 1 — valid login redirects to inventory page', async ({ page }) => {
     await login(page);
     await expect(page, 'Should redirect to inventory after valid login').toHaveURL(/inventory/);
